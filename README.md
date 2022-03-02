@@ -7,7 +7,7 @@ There are too many resources to get news from it, **News App** will deliver news
 
 
 ## Technologies used:
-This application was built using the following technologies:
+This application built using the following technologies:
 ### For Programming the app:
 * Android Studio.
 * MVVM Architecture.
