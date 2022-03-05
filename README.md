@@ -26,8 +26,14 @@ https://user-images.githubusercontent.com/92253592/156410870-a1dd4793-267e-4515-
 
 
 - A user has an interest in technology and sports and he wants to catch up on the latest news on both fields
+- A user wants to search for a specific word
+- A user wants to save news to view later
 
 
+
+## UML:
+
+![WhatsApp Image 2022-03-05 at 11 53 50 PM](https://user-images.githubusercontent.com/92253592/156899817-5635f0dc-78db-4d1a-a314-d5202d3d52ba.jpeg)
 
 
 
