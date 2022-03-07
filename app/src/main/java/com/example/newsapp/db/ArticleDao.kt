@@ -5,7 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.newsapp.ui.Article
+import com.example.newsapp.models.Article
 import retrofit2.http.DELETE
 
 @Dao
