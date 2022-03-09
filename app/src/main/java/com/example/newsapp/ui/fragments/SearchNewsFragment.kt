@@ -1,42 +1,33 @@
 package com.example.newsapp.ui.fragments
 
-import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AbsListView
-import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.R
 import com.example.newsapp.adapters.NewsAdapter
 import com.example.newsapp.ui.NewsActivity
 import com.example.newsapp.ui.NewsViewModel
+import com.example.newsapp.util.Constants.Companion.QUERY_PAGE_SIZE
 import com.example.newsapp.util.Constants.Companion.SEARCH_NEWS_TIME_DELAY
 import com.example.newsapp.util.Resource
 import kotlinx.android.synthetic.main.fragment_search_news.*
 import kotlinx.coroutines.Job
-import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
-import com.example.newsapp.db.ArticleDatabase
-import com.example.newsapp.repository.NewsRepository
-import com.example.newsapp.ui.NewsViewModelProviderFactory
-import com.example.newsapp.util.Constants.Companion.QUERY_PAGE_SIZE
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private const val TAG = "SearchNewsFragment"
 
-
 class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
 
     lateinit var viewModel: NewsViewModel
-    lateinit var newsAdapter: NewsAdapter
-    val TAG = "SearchNewsFragment"
+    private lateinit var newsAdapter: NewsAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,8 +57,8 @@ class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
             }
         }
 
-        viewModel.searchNews.observe(viewLifecycleOwner, Observer { response ->
-            when(response) {
+        viewModel.searchNews.observe(viewLifecycleOwner) { response ->
+            when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let { newsResponse ->
@@ -86,7 +77,7 @@ class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
                     showProgressBar()
                 }
             }
-        })
+        }
     }
 
     private fun hideProgressBar() {
@@ -103,7 +94,7 @@ class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
     var isLastPage = false
     var isScrolling = false
 
-    val scrollListener = object : RecyclerView.OnScrollListener() {
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
 

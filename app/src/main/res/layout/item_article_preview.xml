@@ -22,16 +22,16 @@
             android:layout_width="160dp"
             android:layout_height="90dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/dusan_vlahovic_back"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/news_image" />
 
         <TextView
             android:id="@+id/tvSource"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="BBC"
+            android:text="@string/bbc"
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivArticleImage" />

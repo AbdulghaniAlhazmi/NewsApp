@@ -10,6 +10,8 @@
         <entry key="..\:/Users/faisa/AndroidStudioProjects/NewsApp/app/src/main/res/layout/activity_news.xml" value="0.1787037037037037" />
         <entry key="..\:/Users/faisa/AndroidStudioProjects/NewsApp/app/src/main/res/layout/fragment_saved_news.xml" value="0.264" />
         <entry key="..\:/Users/faisa/AndroidStudioProjects/NewsApp/app/src/main/res/layout/item_article_preview.xml" value="0.25364583333333335" />
+        <entry key="app/src/main/res/layout/fragment_article.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_article_preview.xml" value="0.1" />
       </map>
     </option>
   </component>

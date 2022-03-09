@@ -1,12 +1,10 @@
 package com.example.newsapp.api
 
-import com.example.newsapp.ui.api.NewsAPI
 import com.example.newsapp.util.Constants.Companion.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 class RetrofitInstance {
     companion object{
@@ -23,7 +21,7 @@ class RetrofitInstance {
                 .build()
         }
 
-        val api by lazy {
+        val api: NewsAPI by lazy {
             retrofit.create(NewsAPI::class.java)
         }
     }

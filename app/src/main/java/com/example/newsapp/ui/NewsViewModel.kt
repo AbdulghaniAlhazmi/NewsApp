@@ -1,6 +1,5 @@
 package com.example.newsapp.ui
 
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,16 +10,16 @@ import com.example.newsapp.util.Resource
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class NewsViewModel(val newsRepository: NewsRepository) : ViewModel() {
+class NewsViewModel(private val newsRepository: NewsRepository) : ViewModel() {
 
     val breakingNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     var breakingNewsPage = 1
-    var breakingNewsResponse : NewsResponse? = null
+    private var breakingNewsResponse : NewsResponse? = null
 
 
     val searchNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     var searchNewsPage = 1
-    var searchNewsResponse : NewsResponse? = null
+    private var searchNewsResponse : NewsResponse? = null
 
 
 

@@ -12,7 +12,11 @@ This application built using the following technologies:
 * Android Studio.
 * MVVM Architecture.
 * RecyclerViews & Adapters.
+* Retrofit.
+* [REST API](https://newsapi.org/).
+* Coroutines.
 * Room Database.
+* Glide.
 
 
 ## User Flow
@@ -25,7 +29,7 @@ https://user-images.githubusercontent.com/92253592/156410870-a1dd4793-267e-4515-
 
 
 
-- A user has an interest in technology and sports and he wants to catch up on the latest news on both fields
+- A user wants to see Breaking News
 - A user wants to search for a specific word
 - A user wants to save news to view later
 

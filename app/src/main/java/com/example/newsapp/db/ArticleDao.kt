@@ -3,7 +3,6 @@ package com.example.newsapp.db
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.newsapp.models.Article
-import retrofit2.http.DELETE
 
 @Dao
 interface ArticleDao {
