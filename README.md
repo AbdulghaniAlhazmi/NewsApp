@@ -29,7 +29,7 @@ https://user-images.githubusercontent.com/92253592/156410870-a1dd4793-267e-4515-
 
 
 
-- A user wants to see Breaking News
+- A user wants to see latest breaking news
 - A user wants to search for a specific word
 - A user wants to save news to view later
 
