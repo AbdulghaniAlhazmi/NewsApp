@@ -1,10 +1,7 @@
 package com.example.newsapp.db
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.newsapp.models.Article
 import retrofit2.http.DELETE
 
@@ -17,6 +14,6 @@ interface ArticleDao {
     @Query("SELECT * FROM articles")
     fun getAllArticles(): LiveData<List<Article>>
 
-    @DELETE
+    @Delete
     suspend fun deleteArticle(article: Article)
 }
