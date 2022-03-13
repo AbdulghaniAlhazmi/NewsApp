@@ -34,12 +34,6 @@ class SavedNewsFragment : Fragment() {
     ): View {
         binding = FragmentSavedNewsBinding.inflate(layoutInflater)
 
-        return binding.root
-
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         val newsRepository = NewsRepository(ArticleDatabase(requireContext()))
         val vmProviderFactory = NewsViewModelProviderFactory(newsRepository)
@@ -73,7 +67,7 @@ class SavedNewsFragment : Fragment() {
                 val position = viewHolder.adapterPosition
                 val article = newsAdapter.differ.currentList[position]
                 viewModel.deleteArticle(article)
-                Snackbar.make(view,"Successfully deleted Article",Snackbar.LENGTH_LONG).apply {
+                Snackbar.make(requireView(),"Successfully deleted Article",Snackbar.LENGTH_LONG).apply {
                     setAction("Undo"){
                         viewModel.saveArticle(article)
                     }
@@ -90,7 +84,11 @@ class SavedNewsFragment : Fragment() {
         viewModel.getSavedNews().observe(viewLifecycleOwner) {
             newsAdapter.differ.submitList(it)
         }
+
+        return binding.root
+
     }
+
 
 
     private fun setRecyclerView(){

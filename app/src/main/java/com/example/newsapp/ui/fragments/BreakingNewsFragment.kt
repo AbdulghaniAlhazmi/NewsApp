@@ -23,6 +23,7 @@ import com.example.newsapp.util.Constants.Companion.QUERY_PAGE_SIZE
 import com.example.newsapp.util.Resource
 
 private const val TAG = "BreakingNewsFragment"
+
 class BreakingNewsFragment : Fragment() {
 
     lateinit var viewModel: NewsViewModel
@@ -36,12 +37,6 @@ class BreakingNewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentBreakingNewsBinding.inflate(layoutInflater)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
 
         val newsRepository = NewsRepository(ArticleDatabase(requireContext()))
         val vmProviderFactory = NewsViewModelProviderFactory(newsRepository)
@@ -54,7 +49,7 @@ class BreakingNewsFragment : Fragment() {
                 R.id.action_breakingNewsFragment_to_articleFragment,
                 Bundle().apply {
                     Log.d("HEELO", it.url.toString())
-                    putSerializable(ARTICLE_KEY,it)
+                    putSerializable(ARTICLE_KEY, it)
                 }
             )
         }
@@ -83,7 +78,10 @@ class BreakingNewsFragment : Fragment() {
             }
         }
 
+
+        return binding.root
     }
+
 
     private fun hideProgressBar() {
         binding.paginationProgressBar.visibility = View.INVISIBLE
@@ -114,7 +112,7 @@ class BreakingNewsFragment : Fragment() {
             val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
             val shouldPaginate = isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
                     isTotalMoreThanVisible && isScrolling
-            if(shouldPaginate) {
+            if (shouldPaginate) {
                 viewModel.getBreakingNews("us")
                 isScrolling = false
             } else {
@@ -124,7 +122,7 @@ class BreakingNewsFragment : Fragment() {
 
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
-            if(newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                 isScrolling = true
             }
         }

@@ -39,13 +39,6 @@ class SearchNewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSearchNewsBinding.inflate(layoutInflater)
-
-        return binding.root
-
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as NewsActivity).viewModel
         setupRecyclerView()
 
@@ -94,7 +87,10 @@ class SearchNewsFragment : Fragment() {
                 }
             }
         }
+        return binding.root
+
     }
+
 
     private fun hideProgressBar() {
         binding.paginationProgressBar.visibility = View.INVISIBLE
