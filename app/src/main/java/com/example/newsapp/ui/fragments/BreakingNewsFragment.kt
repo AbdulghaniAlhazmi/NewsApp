@@ -125,6 +125,7 @@ class BreakingNewsFragment : Fragment() {
             if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                 isScrolling = true
             }
+
         }
     }
 
