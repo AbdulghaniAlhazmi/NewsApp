@@ -1,7 +1,10 @@
 package com.example.newsapp.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -10,16 +13,30 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.R
 import com.example.newsapp.adapters.NewsAdapter
+import com.example.newsapp.databinding.FragmentSavedNewsBinding
 import com.example.newsapp.db.ArticleDatabase
 import com.example.newsapp.repository.NewsRepository
 import com.example.newsapp.ui.NewsViewModel
 import com.example.newsapp.ui.NewsViewModelProviderFactory
+import com.example.newsapp.util.Constants
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_saved_news.*
 
-class SavedNewsFragment : Fragment(R.layout.fragment_saved_news) {
+class SavedNewsFragment : Fragment() {
     lateinit var viewModel: NewsViewModel
+    private lateinit var binding: FragmentSavedNewsBinding
     lateinit var newsAdapter : NewsAdapter
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentSavedNewsBinding.inflate(layoutInflater)
+
+        return binding.root
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,11 +48,13 @@ class SavedNewsFragment : Fragment(R.layout.fragment_saved_news) {
         setRecyclerView()
 
         newsAdapter.setOnItemClickListener {
-            val bundle = Bundle().apply {
-                putSerializable("article",it)
-            }
-
-            findNavController().navigate(R.id.action_savedNewsFragment_to_articleFragment,bundle)
+            findNavController().navigate(
+                R.id.action_savedNewsFragment_to_articleFragment,
+                Bundle().apply {
+                    Log.d("HEELO", it.url.toString())
+                    putSerializable(Constants.ARTICLE_KEY,it)
+                }
+            )
         }
 
         val itemTouchHelperCallbacks =  object :  ItemTouchHelper.SimpleCallback(
@@ -64,7 +83,7 @@ class SavedNewsFragment : Fragment(R.layout.fragment_saved_news) {
         }
 
         ItemTouchHelper(itemTouchHelperCallbacks).apply {
-            attachToRecyclerView(rvSavedNews)
+            attachToRecyclerView(binding.rvSavedNews)
         }
 
 
@@ -76,7 +95,7 @@ class SavedNewsFragment : Fragment(R.layout.fragment_saved_news) {
 
     private fun setRecyclerView(){
         newsAdapter = NewsAdapter()
-        rvSavedNews.apply {
+        binding.rvSavedNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
         }

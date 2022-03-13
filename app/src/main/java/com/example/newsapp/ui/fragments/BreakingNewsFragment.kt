@@ -2,7 +2,9 @@ package com.example.newsapp.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AbsListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -11,22 +13,35 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.R
 import com.example.newsapp.adapters.NewsAdapter
+import com.example.newsapp.databinding.FragmentBreakingNewsBinding
 import com.example.newsapp.db.ArticleDatabase
 import com.example.newsapp.repository.NewsRepository
 import com.example.newsapp.ui.NewsViewModel
 import com.example.newsapp.ui.NewsViewModelProviderFactory
+import com.example.newsapp.util.Constants.Companion.ARTICLE_KEY
 import com.example.newsapp.util.Constants.Companion.QUERY_PAGE_SIZE
 import com.example.newsapp.util.Resource
-import kotlinx.android.synthetic.main.fragment_breaking_news.*
 
 private const val TAG = "BreakingNewsFragment"
-class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
+class BreakingNewsFragment : Fragment() {
 
     lateinit var viewModel: NewsViewModel
+    lateinit var binding: FragmentBreakingNewsBinding
     private lateinit var newsAdapter: NewsAdapter
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentBreakingNewsBinding.inflate(layoutInflater)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         val newsRepository = NewsRepository(ArticleDatabase(requireContext()))
         val vmProviderFactory = NewsViewModelProviderFactory(newsRepository)
@@ -35,12 +50,12 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
         setupRecyclerView()
 
         newsAdapter.setOnItemClickListener {
-            val bundle = Bundle().apply {
-                putSerializable("article", it)
-            }
             findNavController().navigate(
                 R.id.action_breakingNewsFragment_to_articleFragment,
-                bundle
+                Bundle().apply {
+                    Log.d("HEELO", it.url.toString())
+                    putSerializable(ARTICLE_KEY,it)
+                }
             )
         }
 
@@ -71,12 +86,12 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
     }
 
     private fun hideProgressBar() {
-        paginationProgressBar.visibility = View.INVISIBLE
+        binding.paginationProgressBar.visibility = View.INVISIBLE
         isLoading = false
     }
 
     private fun showProgressBar() {
-        paginationProgressBar.visibility = View.VISIBLE
+        binding.paginationProgressBar.visibility = View.VISIBLE
         isLoading = true
     }
 
@@ -103,7 +118,7 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
                 viewModel.getBreakingNews("us")
                 isScrolling = false
             } else {
-                rvBreakingNews.setPadding(0, 0, 0, 0)
+                binding.rvBreakingNews.setPadding(0, 0, 0, 0)
             }
         }
 
@@ -117,7 +132,7 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
 
     private fun setupRecyclerView() {
         newsAdapter = NewsAdapter()
-        rvBreakingNews.apply {
+        binding.rvBreakingNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
             addOnScrollListener(this@BreakingNewsFragment.scrollListener)
