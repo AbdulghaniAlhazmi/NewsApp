@@ -20,7 +20,7 @@ This application built using the following technologies:
 
 
 ## User Flow
-![User Flow](https://h.top4top.io/p_22526hxmu1.jpeg)
+![User Flow](https://user-images.githubusercontent.com/92253592/158048755-b7431e67-d8ed-428e-a8d6-f4dd8c83c689.jpeg)
 
 
 ## Wireframes and User story:
