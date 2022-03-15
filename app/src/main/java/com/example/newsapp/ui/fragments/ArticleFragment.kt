@@ -1,5 +1,6 @@
 package com.example.newsapp.ui.fragments
 
+import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.example.newsapp.databinding.FragmentArticleBinding
 import com.example.newsapp.db.ArticleDatabase
 import com.example.newsapp.models.Article
 import com.example.newsapp.repository.NewsRepository
+import com.example.newsapp.ui.NewsActivity
 import com.example.newsapp.ui.NewsViewModel
 import com.example.newsapp.ui.NewsViewModelProviderFactory
 import com.example.newsapp.util.Constants.Companion.ARTICLE_KEY
@@ -34,16 +36,9 @@ class ArticleFragment : Fragment() {
         Log.d("HEELO", article.url.toString())
 
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         val newsRepository = NewsRepository(ArticleDatabase(requireContext()))
-        val vmProviderFactory = NewsViewModelProviderFactory(newsRepository)
-        viewModel = ViewModelProvider(this, vmProviderFactory)[NewsViewModel::class.java]
-
+        val vmProviderFactory = NewsViewModelProviderFactory(Application(),newsRepository)
+        viewModel = ViewModelProvider(this, vmProviderFactory).get(NewsViewModel::class.java)
 
 
         binding.webView.apply {
@@ -54,10 +49,12 @@ class ArticleFragment : Fragment() {
 
         binding.fab.setOnClickListener {
             viewModel.saveArticle(article)
-            Snackbar.make(view,"Article saved successfully",Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(requireView(),"Article saved successfully",Snackbar.LENGTH_SHORT).show()
 
         }
 
 
+        return binding.root
     }
+
 }
