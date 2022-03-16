@@ -13,7 +13,6 @@ import com.example.newsapp.databinding.FragmentArticleBinding
 import com.example.newsapp.db.ArticleDatabase
 import com.example.newsapp.models.Article
 import com.example.newsapp.repository.NewsRepository
-import com.example.newsapp.ui.NewsActivity
 import com.example.newsapp.ui.NewsViewModel
 import com.example.newsapp.ui.NewsViewModelProviderFactory
 import com.example.newsapp.util.Constants.Companion.ARTICLE_KEY
@@ -33,18 +32,18 @@ class ArticleFragment : Fragment() {
     ): View {
         binding = FragmentArticleBinding.inflate(layoutInflater)
         article = requireArguments().getSerializable(ARTICLE_KEY) as Article
-        Log.d("HEELO", article.url.toString())
+        Log.d("HEELO", article.url)
 
 
         val newsRepository = NewsRepository(ArticleDatabase(requireContext()))
         val vmProviderFactory = NewsViewModelProviderFactory(Application(),newsRepository)
-        viewModel = ViewModelProvider(this, vmProviderFactory).get(NewsViewModel::class.java)
+        viewModel = ViewModelProvider(this, vmProviderFactory)[NewsViewModel::class.java]
 
 
         binding.webView.apply {
             webViewClient = WebViewClient()
-            Log.d("HEELO", article.url.toString())
-            article.url?.let { loadUrl(it) }
+            Log.d("HEELO", article.url)
+            loadUrl(article.url)
         }
 
         binding.fab.setOnClickListener {

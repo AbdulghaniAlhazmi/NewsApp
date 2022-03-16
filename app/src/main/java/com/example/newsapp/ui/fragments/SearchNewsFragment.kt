@@ -10,7 +10,6 @@ import android.widget.AbsListView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +19,6 @@ import com.example.newsapp.adapters.NewsAdapter
 import com.example.newsapp.databinding.FragmentSearchNewsBinding
 import com.example.newsapp.db.ArticleDatabase
 import com.example.newsapp.repository.NewsRepository
-import com.example.newsapp.ui.NewsActivity
 import com.example.newsapp.ui.NewsViewModel
 import com.example.newsapp.ui.NewsViewModelProviderFactory
 import com.example.newsapp.util.Constants
@@ -31,8 +29,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
-private const val TAG = "SearchNewsFragment"
 
 class SearchNewsFragment : Fragment() {
 
@@ -48,7 +44,7 @@ class SearchNewsFragment : Fragment() {
         binding = FragmentSearchNewsBinding.inflate(layoutInflater)
         val newsRepository = NewsRepository(ArticleDatabase(requireContext()))
         val vmProviderFactory = NewsViewModelProviderFactory(Application(),newsRepository)
-        viewModel = ViewModelProvider(this, vmProviderFactory).get(NewsViewModel::class.java)
+        viewModel = ViewModelProvider(this, vmProviderFactory)[NewsViewModel::class.java]
 
         setupRecyclerView()
 
@@ -56,7 +52,7 @@ class SearchNewsFragment : Fragment() {
             findNavController().navigate(
                 R.id.action_searchNewsFragment_to_articleFragment,
                 Bundle().apply {
-                    Log.d("HEELO", it.url.toString())
+                    Log.d("HEELO", it.url)
                     putSerializable(Constants.ARTICLE_KEY,it)
                 }
             )
@@ -75,15 +71,15 @@ class SearchNewsFragment : Fragment() {
             }
         }
 
-        viewModel.searchNews.observe(viewLifecycleOwner, Observer { response ->
-            when(response) {
+        viewModel.searchNews.observe(viewLifecycleOwner) { response ->
+            when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let { newsResponse ->
                         newsAdapter.differ.submitList(newsResponse.articles.toList())
-                        val totalPages = newsResponse.totalResults / Constants.QUERY_PAGE_SIZE + 2
+                        val totalPages = newsResponse.totalResults / QUERY_PAGE_SIZE + 2
                         isLastPage = viewModel.searchNewsPage == totalPages
-                        if(isLastPage) {
+                        if (isLastPage) {
                             binding.rvSearchNews.setPadding(0, 0, 0, 0)
                         }
                     }
@@ -91,14 +87,15 @@ class SearchNewsFragment : Fragment() {
                 is Resource.Error -> {
                     hideProgressBar()
                     response.message?.let { message ->
-                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG).show()
+                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG)
+                            .show()
                     }
                 }
                 is Resource.Loading -> {
                     showProgressBar()
                 }
             }
-        })
+        }
 
 
         return binding.root
@@ -120,7 +117,7 @@ class SearchNewsFragment : Fragment() {
     var isLastPage = false
     var isScrolling = false
 
-    val scrollListener = object : RecyclerView.OnScrollListener() {
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
 
@@ -133,7 +130,7 @@ class SearchNewsFragment : Fragment() {
             val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
             val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
             val isNotAtBeginning = firstVisibleItemPosition >= 0
-            val isTotalMoreThanVisible = totalItemCount >= Constants.QUERY_PAGE_SIZE
+            val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
             val shouldPaginate = isNoErrors && isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
                     isTotalMoreThanVisible && isScrolling
             if(shouldPaginate) {

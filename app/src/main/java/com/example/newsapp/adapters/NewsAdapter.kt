@@ -1,5 +1,6 @@
 package com.example.newsapp.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.newsapp.databinding.ItemArticlePreviewBinding
 import com.example.newsapp.models.Article
+import java.text.SimpleDateFormat
 
 class NewsAdapter:RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
@@ -50,13 +52,22 @@ class NewsAdapter:RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
             Glide.with(this).load(article.urlToImage).into(holder.binding.ivArticleImage)
             holder.binding.tvSource.text = article.source?.name
             holder.binding.tvTitle.text = article.title
-            holder.binding.tvDescription.text = article.description
-            holder.binding.tvPublishedAt.text = article.publishedAt
+            holder.binding.tvPublishedAt.text = convertDate(article.publishedAt)
             holder.itemView.setOnClickListener{
                 onItemClickListener?.let { it(article) }
             }
         }
     }
+
+    @SuppressLint("SimpleDateFormat")
+    fun convertDate(date: String): String {
+
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val formatter = SimpleDateFormat("E, d MMM yyyy")
+        return formatter.format(parser.parse(date))
+    }
+
+
 
 
     fun setOnItemClickListener(listener: (Article) -> Unit) {

@@ -15,18 +15,18 @@ import retrofit2.Response
 
 class NewsViewModel(
     app: Application,
-    val newsRepository: NewsRepository
+    private val newsRepository: NewsRepository
 ) : AndroidViewModel(app) {
 
     val breakingNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     var breakingNewsPage = 1
-    var breakingNewsResponse: NewsResponse? = null
+    private var breakingNewsResponse: NewsResponse? = null
 
     val searchNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     var searchNewsPage = 1
-    var searchNewsResponse: NewsResponse? = null
-    var newSearchQuery:String? = null
-    var oldSearchQuery:String? = null
+    private var searchNewsResponse: NewsResponse? = null
+    private var newSearchQuery:String? = null
+    private var oldSearchQuery:String? = null
 
 
     init {

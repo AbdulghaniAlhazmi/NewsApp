@@ -14,7 +14,7 @@ import com.example.newsapp.repository.NewsRepository
 
 class NewsActivity : AppCompatActivity() {
 
-    lateinit var viewModel: NewsViewModel
+    private lateinit var viewModel: NewsViewModel
     private lateinit var binding: ActivityNewsBinding
     private lateinit var navController: NavController
 

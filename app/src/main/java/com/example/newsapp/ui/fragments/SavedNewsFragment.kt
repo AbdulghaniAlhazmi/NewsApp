@@ -17,7 +17,6 @@ import com.example.newsapp.adapters.NewsAdapter
 import com.example.newsapp.databinding.FragmentSavedNewsBinding
 import com.example.newsapp.db.ArticleDatabase
 import com.example.newsapp.repository.NewsRepository
-import com.example.newsapp.ui.NewsActivity
 import com.example.newsapp.ui.NewsViewModel
 import com.example.newsapp.ui.NewsViewModelProviderFactory
 import com.example.newsapp.util.Constants
@@ -38,7 +37,7 @@ class SavedNewsFragment : Fragment() {
 
         val newsRepository = NewsRepository(ArticleDatabase(requireContext()))
         val vmProviderFactory = NewsViewModelProviderFactory(Application(),newsRepository)
-        viewModel = ViewModelProvider(this, vmProviderFactory).get(NewsViewModel::class.java)
+        viewModel = ViewModelProvider(this, vmProviderFactory)[NewsViewModel::class.java]
 
         setRecyclerView()
 
@@ -46,7 +45,7 @@ class SavedNewsFragment : Fragment() {
             findNavController().navigate(
                 R.id.action_savedNewsFragment_to_articleFragment,
                 Bundle().apply {
-                    Log.d("HEELO", it.url.toString())
+                    Log.d("HEELO", it.url)
                     putSerializable(Constants.ARTICLE_KEY,it)
                 }
             )
